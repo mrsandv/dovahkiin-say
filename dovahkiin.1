@@ -1,0 +1,46 @@
+.TH DOVAHKIIN 1 "2026-04-22" "dovahkiin 0.1.0" "User Commands"
+.SH NAME
+dovahkiin \- FUS RO DAH! Random Skyrim quotes from Alduin's scroll
+.SH SYNOPSIS
+.B dovahkiin
+[\fIOPTIONS\fR]
+.SH DESCRIPTION
+.B dovahkiin
+displays random Skyrim quotes inside an ASCII art scroll held by Alduin,
+the World-Eater. Each run shows a different quote from guards, NPCs, and
+legends of Skyrim.
+.PP
+You can also pass your own text with the \fB\-\-quote\fR option.
+.SH OPTIONS
+.TP
+.BR \-q ", " \-\-quote " " \fITEXT\fR
+Display custom text in the scroll instead of a random Skyrim quote.
+Maximum 260 characters. Text longer than this will be truncated.
+.TP
+.BR \-v ", " \-\-version
+Show version number and credits inside Alduin's scroll.
+.TP
+.BR \-h ", " \-\-help
+Print help information.
+.SH EXAMPLES
+.TP
+Show a random Skyrim quote:
+.B dovahkiin
+.TP
+Show custom text:
+.B dovahkiin \-q \(dqFus Ro Dah!\(dq
+.TP
+Show version and credits:
+.B dovahkiin \-v
+.SH ASCII ART
+The Alduin ASCII art was created by Alan Greep.
+.br
+Source: https://asciiart.website/art/1469
+.SH AUTHOR
+Marco Sandoval <marco@example.com>
+.br
+https://marcosandoval.dev
+.SH SOURCE
+https://github.com/marcosandoval/dovahkiin
+.SH LICENSE
+MIT License
