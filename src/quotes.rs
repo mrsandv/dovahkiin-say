@@ -1,7 +1,6 @@
 use rand::seq::SliceRandom;
 
-/// Cada quote es una tupla: (texto, quién lo dice)
-/// `&str` = referencia a texto que vive en el binario (no se copia, no se aloca)
+/// List of Skyrim quotes and their authors.
 const QUOTES: &[(&str, &str)] = &[
     ("I used to be an adventurer like you, then I took an arrow in the knee.", "Whiterun Guard"),
     ("FUS RO DAH!", "Dragonborn"),
@@ -20,16 +19,14 @@ const QUOTES: &[(&str, &str)] = &[
     ("By the order of the Jarl, stop right there!", "Guard"),
     ("Hey, you. You're finally awake.", "Ralof"),
     ("I need to ask you to stop. That... shouting... is making people nervous.", "Guard"),
-    ("War doesn't determine who's right, only who's left.", "Ulfric Stormcloak"),
     ("The next person that calls me chicken is getting the axe!", "Guard"),
     ("Dovahkiin, Dovahkiin, naal ok zin los vahriin!", "Bard"),
     ("You never should have come here!", "Bandit"),
-    ("I'll have you know that there's no PUSSIEEEEE!", "Bandit"),
-    ("Another wanderer, here to lick my father's boots. Good job.", "Balgruuf's Kid"),
+    ("Another wanderer, here to lick my father's boots. Good job.", "Nelkir"),
     ("Hail Sithis!", "Dark Brotherhood"),
 ];
 
-/// Retorna un quote aleatorio formateado
+/// Returns a random formatted quote string.
 pub fn random_quote() -> String {
     let mut rng = rand::thread_rng();
     let (quote, author) = QUOTES.choose(&mut rng).unwrap();

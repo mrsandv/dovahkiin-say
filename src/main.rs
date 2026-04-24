@@ -3,12 +3,7 @@ use clap::Parser;
 mod art;
 mod quotes;
 
-/// Clap maneja --help automáticamente con los doc comments y atributos.
-/// Para --version, lo manejamos manual porque queremos mostrarlo
-/// dentro del pergamino de Alduin (no el default aburrido de clap).
-///
-/// `long_about` es lo que se muestra con `--help` (versión larga).
-/// `about` es lo que se muestra con `-h` (versión corta).
+/// CLI arguments for Dovahkiin.
 #[derive(Parser)]
 #[command(
     name = "dovahkiin",
@@ -20,7 +15,7 @@ mod quotes;
         ASCII art by Alan Greep (https://asciiart.website/art/1469)"
 )]
 struct Cli {
-    /// Custom text to display in the scroll (max 260 chars)
+    /// Custom text to display (max 260 chars)
     #[arg(short, long)]
     quote: Option<String>,
 
@@ -29,8 +24,7 @@ struct Cli {
     version: bool,
 }
 
-/// Máximo de caracteres para --quote.
-/// 4 líneas × 65 chars = 260. Más que eso rompe el pergamino.
+/// Max characters allowed to preserve scroll integrity.
 const MAX_QUOTE_LEN: usize = 260;
 
 fn main() {
@@ -43,10 +37,7 @@ fn main() {
 
     let text = cli.quote.unwrap_or_else(|| quotes::random_quote());
 
-    // Truncar si excede el límite — protege el diseño del pergamino.
-    // `.chars().take(N).collect()` es la forma correcta en Rust.
-    // NO usar `&text[..N]` porque podría cortar un carácter UTF-8 por la mitad
-    // y causar panic. Rust strings son UTF-8, no ASCII.
+    // Truncate if exceeds limit to protect layout.
     let text = if text.chars().count() > MAX_QUOTE_LEN {
         let truncated: String = text.chars().take(MAX_QUOTE_LEN - 3).collect();
         format!("{}...", truncated)
@@ -57,12 +48,14 @@ fn main() {
     print!("{}", art::render(&text));
 }
 
+/// Returns formatted version and author info.
 fn version_text() -> String {
     format!(
         "dovahkiin v{}\n\
-         By Marco Sandoval <marco@example.com>\n\
-         https://github.com/marcosandoval/dovahkiin\n\
-         https://marcosandoval.dev",
+         By Marco Sandoval (mrsan)\n\
+         https://github.com/mrsandv/dovahkiin-say\n\
+         https://spacehole.tech",
         env!("CARGO_PKG_VERSION")
     )
 }
+
