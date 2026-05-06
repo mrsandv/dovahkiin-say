@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 description = "A cowsay-like CLI that shouts Skyrim quotes from Alduin"
 license = "MIT"
-authors = ["Marco Sandoval <mrsandvv@gmail.com>"]
+authors = ["Marco Sandoval E. <mrsandvv@gmail.com>"]
 homepage = "https://spacehole.tech"
 repository = "https://github.com/mrsandv/dovahkiin-say"
 
