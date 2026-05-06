@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  update-brew:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update Homebrew formula
+        uses: mislav/bump-homebrew-formula-action@v3
+        with:
+          # Nombre de la fórmula (debe coincidir con el nombre del archivo .rb)
+          formula-name: dovahkiin
+          # Tu repositorio de Tap (ajusta si el nombre es distinto)
+          homebrew-tap: mrsandv/homebrew-tap
+          # Token con permisos de 'repo' para actualizar el Tap
+          base-branch: main
+          download-url: https://github.com/mrsandv/dovahkiin-say/archive/refs/tags/${{ github.ref_name }}.tar.gz
+        env:
+          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}

@@ -2,7 +2,7 @@
 name = "dovahkiin"
 version = "0.1.0"
 edition = "2024"
-description = "FUS RO DAH! A cowsay-like CLI that shouts Skyrim quotes from Alduin"
+description = "A cowsay-like CLI that shouts Skyrim quotes from Alduin"
 license = "MIT"
 authors = ["Marco Sandoval <mrsandvv@gmail.com>"]
 homepage = "https://spacehole.tech"
