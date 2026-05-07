@@ -6,21 +6,49 @@ on:
       - 'v*'
 
 jobs:
-  update-brew:
-    runs-on: ubuntu-latest
+  build-macos:
+    name: Build macOS Universal Binary
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin, x86_64-apple-darwin
+
+      - name: Build
+        run: |
+          cargo build --release --target aarch64-apple-darwin
+          cargo build --release --target x86_64-apple-darwin
+
+      - name: Create Universal Binary
+        run: |
+          mkdir -p dist
+          lipo -create -output dist/dovahkiin \
+            target/aarch64-apple-darwin/release/dovahkiin \
+            target/x86_64-apple-darwin/release/dovahkiin
+          cp dovahkiin.1 dist/
+          tar -czf dovahkiin-macos.tar.gz -C dist dovahkiin dovahkiin.1
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dovahkiin-macos.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update-brew:
+    needs: build-macos
+    runs-on: ubuntu-latest
+    steps:
       - name: Update Homebrew formula
         uses: mislav/bump-homebrew-formula-action@v3
         with:
-          # Nombre de la fórmula (debe coincidir con el nombre del archivo .rb)
           formula-name: dovahkiin
-          # Tu repositorio de Tap (ajusta si el nombre es distinto)
           homebrew-tap: mrsandv/homebrew-tap
-          # Token con permisos de 'repo' para actualizar el Tap
           base-branch: main
-          download-url: https://github.com/mrsandv/dovahkiin-say/archive/refs/tags/${{ github.ref_name }}.tar.gz
+          download-url: https://github.com/mrsandv/dovahkiin-say/releases/download/${{ github.ref_name }}/dovahkiin-macos.tar.gz
         env:
           COMMITTER_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
